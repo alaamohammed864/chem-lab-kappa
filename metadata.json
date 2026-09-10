@@ -1,0 +1,6 @@
+{
+  "name": "Alaa Chem Lab - Scientific Workspace",
+  "description": "Professional Web-Based Chemistry, Materials Science, Crystallography, and Engineering Workspace with AI Scientific Assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
