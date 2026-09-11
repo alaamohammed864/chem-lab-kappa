@@ -114,10 +114,8 @@ export const CorrosionGalvanicMatrix: React.FC = () => {
                 Coupling Analysis & Polarity
               </span>
               <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
-                pairResult.riskLevel === 'Severe' ? 'bg-rose-950 text-rose-300 border border-rose-700' :
-                pairResult.riskLevel === 'High' ? 'bg-rose-900/50 text-rose-300 border border-rose-700' :
-                pairResult.riskLevel === 'Moderate' ? 'bg-amber-950 text-amber-300 border border-amber-700' :
-                pairResult.riskLevel === 'Low' ? 'bg-teal-950 text-teal-300 border border-teal-700' :
+                pairResult.riskLevel.includes('Severe') ? 'bg-rose-950 text-rose-300 border border-rose-700' :
+                pairResult.riskLevel.includes('Moderate') ? 'bg-amber-950 text-amber-300 border border-amber-700' :
                 'bg-emerald-950 text-emerald-300 border border-emerald-700'
               }`}>
                 {pairResult.riskLevel} Galvanic Risk

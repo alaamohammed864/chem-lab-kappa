@@ -16,6 +16,8 @@ export type ViewMode =
   | 'research-workspace'
   | 'recent-activity'
   | 'ai-assistant'
+  | 'education'
+  | 'learning-paths'
   | 'ndt-center'
   | 'engineering-calc'
   | 'phase-diagrams'

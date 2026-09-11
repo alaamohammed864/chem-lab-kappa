@@ -16,7 +16,7 @@ import {
 import {
   NDT_METHODS,
   NDTMethodDetail,
-} from '../../engines/materials/ndtEngine';
+} from '../engines/materials/ndtEngine';
 import { NDTMethodOverview } from './ndt/NDTMethodOverview';
 import { NDTPhysicsCalculator } from './ndt/NDTPhysicsCalculator';
 import { NDTEquipmentPanel } from './ndt/NDTEquipmentPanel';
@@ -103,7 +103,7 @@ export const NDTCenterModal: React.FC<NDTCenterModalProps> = ({
                 }`}
               >
                 <span className="font-mono font-bold text-xs">{code}</span>
-                <span className="text-xs text-slate-300 truncate max-w-[120px]">{method.name.split(' ')[0]}</span>
+                <span className="text-xs text-slate-300 truncate max-w-[120px]">{(method.fullName || method.shortName).split(' ')[0]}</span>
               </button>
             );
           })}
@@ -200,7 +200,7 @@ export const NDTCenterModal: React.FC<NDTCenterModalProps> = ({
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1 text-slate-400">
               <span className="w-2 h-2 rounded-full bg-indigo-400 inline-block" />
-              Method: <strong>{currentMethod.code} ({currentMethod.name})</strong>
+              Method: <strong>{currentMethod.shortName} ({currentMethod.fullName})</strong>
             </span>
             <span>·</span>
             <span>Inspection Category: {currentMethod.category}</span>

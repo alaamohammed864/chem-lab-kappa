@@ -1982,3 +1982,28 @@ h3 {
     scroll-behavior: auto !important;
   }
 }
+
+/* Accessibility Focus & Forced Colors Hardening */
+:focus-visible {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+}
+
+@media (forced-colors: active) {
+  .badge, button, input, select, [role="button"] {
+    border: 1px solid ButtonText !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

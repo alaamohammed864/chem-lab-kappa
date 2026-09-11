@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ViewMode } from '../types';
 import {
   Menu,
@@ -10,7 +10,11 @@ import {
   HelpCircle,
   Atom,
   ChevronDown,
+  Check,
+  Info,
 } from 'lucide-react';
+import { OfflineSyncIndicator } from './common/OfflineSyncIndicator';
+import { PWAInstallButton } from './common/PWAInstallButton';
 
 interface TopHeaderProps {
   onOpenMobileSidebar: () => void;
@@ -35,6 +39,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   onOpenNewProject,
   unreadCount = 2,
 }) => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [readNotifications, setReadNotifications] = useState(false);
   const formatBreadcrumb = (view: ViewMode) => {
     switch (view) {
       case 'dashboard':
@@ -101,8 +107,14 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         </div>
       </div>
 
-      {/* Right: Search, Language, Notifications, Help */}
+      {/* Right: Offline Indicator, PWA Install, Search, Language, Notifications, Help */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Offline / Online Sync State Indicator */}
+        <OfflineSyncIndicator className="hidden md:inline-flex" />
+
+        {/* PWA Install Button */}
+        <PWAInstallButton className="hidden sm:inline-flex" />
+
         {/* Search Bar */}
         <button
           onClick={onOpenSearch}
@@ -118,7 +130,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
         </button>
 
         {/* Action icons */}
-        <div className="flex items-center gap-1 border-l border-[#152435] pl-2 sm:pl-3 text-slate-400">
+        <div className="flex items-center gap-1 border-l border-[#152435] pl-2 sm:pl-3 text-slate-400 relative">
           {/* Language Toggle */}
           <button
             onClick={onToggleLanguage}
@@ -133,17 +145,76 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           </button>
 
           {/* Notifications */}
-          <button
-            aria-label="Notifications"
-            onClick={() => alert(`Recent Notifications:\n1. Ti-6Al-4V XRD scan completed with high signal-to-noise ratio.\n2. SiC-α thermal conductivity model verified at 120 W/m·K.`)}
-            className="p-1.5 hover:text-cyan-400 rounded-md hover:bg-[#101b27] transition relative"
-            title="Notifications"
-          >
-            <Bell className="w-4 h-4" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-cyan-400 rounded-full ring-2 ring-[#091017]"></span>
+          <div className="relative">
+            <button
+              aria-label="Notifications"
+              onClick={() => {
+                setShowNotifications(!showNotifications);
+                if (!readNotifications) setReadNotifications(true);
+              }}
+              className={`p-1.5 hover:text-cyan-400 rounded-md hover:bg-[#101b27] transition relative ${
+                showNotifications ? 'text-cyan-400 bg-[#101b27]' : ''
+              }`}
+              title="Notifications"
+            >
+              <Bell className="w-4 h-4" />
+              {unreadCount > 0 && !readNotifications && (
+                <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-cyan-400 rounded-full ring-2 ring-[#091017]"></span>
+              )}
+            </button>
+
+            {/* Notification Drawer Popover */}
+            {showNotifications && (
+              <div
+                role="dialog"
+                aria-label="Workspace Notifications"
+                className="absolute right-0 mt-2 w-80 rounded-xl bg-[#0c1624] border border-[#1b2f45] shadow-2xl z-50 p-3 space-y-2 text-left"
+              >
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div className="flex items-center gap-2">
+                    <Bell className="w-3.5 h-3.5 text-cyan-400" />
+                    <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">
+                      Lab Activity Updates
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
+                    Live
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="p-2 rounded-lg bg-[#0e1a2b] border border-[#1a3250] text-xs space-y-0.5">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-slate-200">Ti-6Al-4V XRD Scan</span>
+                      <span className="text-[10px] text-slate-500 font-mono">Just now</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Indexed 3 characteristic reflections (HCP α-phase) under Cu-Kα radiation with 0.02° step size.
+                    </p>
+                  </div>
+
+                  <div className="p-2 rounded-lg bg-[#0e1a2b] border border-[#1a3250] text-xs space-y-0.5">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-slate-200">NDT Ultrasonic Calibration</span>
+                      <span className="text-[10px] text-slate-500 font-mono">10m ago</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Carbon Steel longitudinal velocity calibrated at 5,960 m/s with 0.12 mm unsharpness.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-1 border-t border-slate-800 flex justify-end">
+                  <button
+                    onClick={() => setShowNotifications(false)}
+                    className="text-[11px] text-cyan-400 hover:text-cyan-300 font-mono py-0.5 px-2 rounded hover:bg-[#15273c]"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
             )}
-          </button>
+          </div>
 
           {/* Help Button */}
           <button

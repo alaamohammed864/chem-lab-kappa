@@ -10,6 +10,11 @@ import {
   TrendingUp,
   ArrowRight,
   Atom,
+  ShieldCheck,
+  Radio,
+  GraduationCap,
+  FolderGit2,
+  FileText,
 } from 'lucide-react';
 import { ELEMENTS_DATA } from '../data/elements';
 import { MATERIALS_DATA } from '../data/materials';
@@ -55,6 +60,11 @@ export const SearchPalette: React.FC<SearchPaletteProps> = ({
     { id: 'material-explorer' as ViewMode, title: 'Material Explorer', desc: 'Browse alloys & technical ceramics', icon: Boxes },
     { id: 'crystal-structure' as ViewMode, title: 'Crystal Structures', desc: 'BCC, FCC, HCP & Miller indices', icon: Sparkles },
     { id: 'xrd-lab' as ViewMode, title: 'XRD Laboratory', desc: 'Diffractometer phase identification', icon: TrendingUp },
+    { id: 'corrosion-lab' as ViewMode, title: 'Corrosion Laboratory', desc: 'PREN calculations, galvanic series & degradation', icon: ShieldCheck },
+    { id: 'ndt-center' as ViewMode, title: 'NDT Examination Center', desc: 'Ultrasonic, Radiographic, Eddy Current, PT, MT, VT', icon: Radio },
+    { id: 'education' as ViewMode, title: 'Education & Curriculum', desc: 'Guided lessons, practice quizzes & worksheets', icon: GraduationCap },
+    { id: 'research-workspace' as ViewMode, title: 'Research Workspace', desc: 'Engineering projects, notes, calculations & citations', icon: FolderGit2 },
+    { id: 'reports' as ViewMode, title: 'Scientific Reports', desc: 'ISO 17025 preview, export & printing', icon: FileText },
   ];
 
   const filteredTools = tools.filter((t) =>

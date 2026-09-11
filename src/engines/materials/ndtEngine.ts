@@ -3,13 +3,30 @@
 
 export type NDTMethodType = 'VT' | 'PT' | 'MT' | 'UT' | 'RT' | 'ET';
 
+export interface NDTIndicationExample {
+  id: string;
+  title: string;
+  name?: string;
+  defectType: string;
+  description?: string;
+  visualAppearance: string;
+  typicalAppearance?: string;
+  probableCause: string;
+  rootCause?: string;
+  criticality: 'Acceptable / Non-relevant' | 'Marginal / Evaluation Required' | 'Rejectable Crack';
+  severityClass?: 'Critical' | 'Major' | 'Minor';
+  evaluationGuidance?: string;
+}
+
 export interface NDTMethodDetail {
   id: NDTMethodType;
+  code?: string;
   shortName: string;
   fullName: string;
+  name?: string;
   category: 'Surface' | 'Volumetric' | 'Electromagnetic';
   applicableMaterials: string;
-  depthOfInspection: 'Surface only' | 'Surface-breaking only' | 'Surface & shallow subsurface (~3-6 mm)' | 'Full volume';
+  depthOfInspection: 'Surface only' | 'Surface-breaking only' | 'Surface & shallow subsurface (~3-6 mm)' | 'Surface & shallow subsurface (~1-8 mm)' | 'Full volume';
   physicsPrinciple: string;
   governingFormula: string;
   governingFormulaExplanation: string;
@@ -20,14 +37,7 @@ export interface NDTMethodDetail {
     description: string;
     keyParameter: string;
   }[];
-  indicationExamples: {
-    id: string;
-    title: string;
-    defectType: string;
-    visualAppearance: string;
-    probableCause: string;
-    criticality: 'Acceptable / Non-relevant' | 'Marginal / Evaluation Required' | 'Rejectable Crack';
-  }[];
+  indicationExamples: NDTIndicationExample[];
   safetyGuidelines: string[];
   referenceCodes: string[];
 }
@@ -49,6 +59,7 @@ export interface UltrasonicProbeResult {
   nearFieldDistanceMm?: number;
   probeDiameterMm?: number;
   halfBeamSpreadDeg?: number;
+  beamSpreadAngleDeg?: number;
 }
 
 export interface RadiographicExposureResult {
@@ -57,7 +68,10 @@ export interface RadiographicExposureResult {
   thicknessCm: number;
   transmittedIntensity: number;
   halfValueLayerCm: number; // HVL = ln(2) / µ
+  tenthValueLayerCm: number; // TVL = ln(10) / µ
+  attenuationPercentage: number;
   geometricUnsharpnessMm: number; // Ug = f * d / D
+  unsharpnessAcceptable: boolean;
 }
 
 export interface EddyCurrentSkinDepthResult {
@@ -573,6 +587,7 @@ export function calculateUltrasonicWavelength(
     nearFieldDistanceMm,
     probeDiameterMm,
     halfBeamSpreadDeg,
+    beamSpreadAngleDeg: halfBeamSpreadDeg !== undefined ? halfBeamSpreadDeg * 2 : undefined,
   };
 }
 
@@ -589,11 +604,14 @@ export function calculateRadiographicExposure(
 ): RadiographicExposureResult {
   const transmitted = initialIntensity * Math.exp(-linearAttenuationCoeffCmInv * thicknessCm);
   const hvl = linearAttenuationCoeffCmInv > 0 ? Math.LN2 / linearAttenuationCoeffCmInv : 0;
+  const tvl = linearAttenuationCoeffCmInv > 0 ? Math.log(10) / linearAttenuationCoeffCmInv : 0;
+  const attenuationPercentage = initialIntensity > 0 ? Math.max(0, Math.min(100, ((initialIntensity - transmitted) / initialIntensity) * 100)) : 0;
 
   // Geometric unsharpness Ug = f * d / D
   // where f = focal spot, d = object-to-film, D = source-to-object
   const sourceToObjectCm = Math.max(0.1, sourceToFilmDistanceCm - objectToFilmDistanceCm);
   const ug = (focalSpotSizeMm * objectToFilmDistanceCm) / sourceToObjectCm;
+  const unsharpnessAcceptable = ug <= 0.5;
 
   return {
     initialIntensity,
@@ -601,7 +619,10 @@ export function calculateRadiographicExposure(
     thicknessCm,
     transmittedIntensity: Number(transmitted.toFixed(4)),
     halfValueLayerCm: Number(hvl.toFixed(3)),
+    tenthValueLayerCm: Number(tvl.toFixed(3)),
+    attenuationPercentage: Number(attenuationPercentage.toFixed(2)),
     geometricUnsharpnessMm: Number(ug.toFixed(3)),
+    unsharpnessAcceptable,
   };
 }
 

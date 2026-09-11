@@ -12,6 +12,9 @@ import {
   MoreVertical,
   Atom,
   Layers,
+  GraduationCap,
+  ShieldCheck,
+  Radio,
 } from 'lucide-react';
 
 interface DashboardViewProps {
@@ -203,6 +206,31 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <ChevronRight className="hidden sm:block w-4 h-4 text-slate-600 group-hover:text-cyan-400 transition transform group-hover:translate-x-0.5 shrink-0" />
           </div>
 
+          {/* Education & Learning Center (New) */}
+          <div
+            id="tool-education-center"
+            onClick={() => onSelectView('education')}
+            className="group p-3 sm:p-3.5 rounded-xl sm:rounded-lg bg-[#0e1824] border border-teal-500/30 hover:border-teal-400 hover:bg-[#111f2e] transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm"
+          >
+            <div className="flex items-start sm:items-center gap-2.5 sm:gap-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-md bg-teal-950/70 border border-teal-500/40 flex items-center justify-center text-teal-300 group-hover:scale-105 transition shrink-0">
+                <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <h4 className="text-xs font-semibold text-white group-hover:text-teal-300 transition truncate">
+                    Education Center
+                  </h4>
+                  <span className="px-1.5 py-0.2 rounded text-[8px] font-mono bg-teal-950 text-teal-300 border border-teal-800">
+                    EDU
+                  </span>
+                </div>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 truncate">Curriculum & worksheets</p>
+              </div>
+            </div>
+            <ChevronRight className="hidden sm:block w-4 h-4 text-slate-600 group-hover:text-teal-400 transition transform group-hover:translate-x-0.5 shrink-0" />
+          </div>
+
           {/* Periodic Table */}
           <div
             id="tool-periodic-table"
@@ -381,6 +409,46 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </div>
             </div>
             <ChevronRight className="hidden sm:block w-4 h-4 text-slate-600 group-hover:text-cyan-400 transition transform group-hover:translate-x-0.5 shrink-0" />
+          </div>
+
+          {/* Corrosion Laboratory */}
+          <div
+            id="tool-corrosion-lab"
+            onClick={() => onSelectView('corrosion-lab')}
+            className="group p-3 sm:p-3.5 rounded-xl sm:rounded-lg bg-[#0e1824] border border-[#182a3c] hover:border-rose-500/40 hover:bg-[#111f2e] transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+          >
+            <div className="flex items-start sm:items-center gap-2.5 sm:gap-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-md bg-[#2b161f] border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-105 transition shrink-0">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-xs font-semibold text-white group-hover:text-rose-300 transition truncate">
+                  Corrosion Lab
+                </h4>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 truncate">PREN & Galvanic cells</p>
+              </div>
+            </div>
+            <ChevronRight className="hidden sm:block w-4 h-4 text-slate-600 group-hover:text-rose-400 transition transform group-hover:translate-x-0.5 shrink-0" />
+          </div>
+
+          {/* NDT Examination Center */}
+          <div
+            id="tool-ndt-center"
+            onClick={() => onSelectView('ndt-center')}
+            className="group p-3 sm:p-3.5 rounded-xl sm:rounded-lg bg-[#0e1824] border border-[#182a3c] hover:border-indigo-500/40 hover:bg-[#111f2e] transition cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+          >
+            <div className="flex items-start sm:items-center gap-2.5 sm:gap-3">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-md bg-[#161c33] border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition shrink-0">
+                <Radio className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-xs font-semibold text-white group-hover:text-indigo-300 transition truncate">
+                  NDT Center
+                </h4>
+                <p className="text-[10px] sm:text-[11px] text-slate-400 truncate">UT, RT, ET, PT, MT, VT</p>
+              </div>
+            </div>
+            <ChevronRight className="hidden sm:block w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition transform group-hover:translate-x-0.5 shrink-0" />
           </div>
         </div>
       </section>

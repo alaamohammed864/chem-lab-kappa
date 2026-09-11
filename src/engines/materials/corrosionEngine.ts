@@ -15,6 +15,10 @@ export interface AlloyCorrosionProfile {
     fe?: number;
     ti?: number;
     al?: number;
+    c?: number;
+    o?: number;
+    mg?: number;
+    [key: string]: number | undefined;
   };
   densityGramsPerCm3: number;
   equivalentWeightGrams: number;
@@ -58,7 +62,10 @@ export interface CorrosionRateResult {
 export interface GalvanicPairResult {
   anodicAlloy: AlloyCorrosionProfile;
   cathodicAlloy: AlloyCorrosionProfile;
+  anodeMaterial?: AlloyCorrosionProfile;
+  cathodeMaterial?: AlloyCorrosionProfile;
   potentialDifferenceVolts: number;
+  potentialDifferenceV?: number;
   riskLevel: 'Negligible (< 0.15 V)' | 'Moderate (0.15 - 0.30 V)' | 'Severe (> 0.30 V)';
   areaRatioEffect: string;
   recommendation: string;
@@ -536,7 +543,10 @@ export function evaluateGalvanicPair(
   return {
     anodicAlloy: anodic,
     cathodicAlloy: cathodic,
+    anodeMaterial: anodic,
+    cathodeMaterial: cathodic,
     potentialDifferenceVolts: Number(potentialDiff.toFixed(2)),
+    potentialDifferenceV: Number(potentialDiff.toFixed(2)),
     riskLevel,
     areaRatioEffect: areaEffect,
     recommendation: rec,

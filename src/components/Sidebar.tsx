@@ -27,6 +27,7 @@ import {
   FlaskConical,
   ShieldCheck,
   TrendingUp,
+  GraduationCap,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -423,6 +424,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <FileSpreadsheet className="w-4 h-4" />
                   Scientific Reports
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Education & Training */}
+          <div>
+            <p className="px-2 mb-1.5 text-[10px] font-semibold tracking-wider text-slate-500 uppercase font-mono">
+              Education & Training
+            </p>
+            <ul className="space-y-0.5">
+              <li>
+                <button
+                  onClick={() => handleNavClick('education')}
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition ${
+                    currentView === 'education' ? 'bg-[#132738] text-cyan-300 font-medium' : 'text-slate-400 hover:text-slate-200 hover:bg-[#111e2b]'
+                  }`}
+                >
+                  <span className="flex items-center gap-2.5">
+                    <GraduationCap className="w-4 h-4 text-teal-400" />
+                    Education Center
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-teal-950 text-teal-300 border border-teal-800/60">
+                    EDU
+                  </span>
                 </button>
               </li>
             </ul>

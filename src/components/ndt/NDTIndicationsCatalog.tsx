@@ -172,7 +172,7 @@ export const NDTIndicationsCatalog: React.FC<NDTIndicationsCatalogProps> = ({ me
             <span className="text-[10px] font-mono uppercase text-slate-400 block font-semibold">
               Root Cause Mechanism:
             </span>
-            <p className="text-slate-300 leading-relaxed text-[11px]">{indication.rootCause}</p>
+            <p className="text-slate-300 leading-relaxed text-[11px]">{indication.rootCause || indication.probableCause}</p>
           </div>
         </div>
 
@@ -180,16 +180,21 @@ export const NDTIndicationsCatalog: React.FC<NDTIndicationsCatalogProps> = ({ me
         <div className="lg:col-span-7 bg-[#0b131d] border border-[#162738] rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between border-b border-slate-800 pb-2">
             <div>
-              <h3 className="text-base font-bold text-white">{indication.name}</h3>
-              <p className="text-xs text-slate-400 mt-0.5">{indication.description}</p>
+              <h3 className="text-base font-bold text-white">{indication.name || indication.title}</h3>
+              <p className="text-xs text-slate-400 mt-0.5">{indication.description || indication.defectType}</p>
             </div>
-            <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${
-              indication.severityClass === 'Critical' ? 'bg-rose-950 text-rose-300 border border-rose-800' :
-              indication.severityClass === 'Major' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
-              'bg-teal-950 text-teal-300 border border-teal-800'
-            }`}>
-              {indication.severityClass} Severity
-            </span>
+            {(() => {
+              const severity = indication.severityClass || (indication.criticality.includes('Rejectable') ? 'Critical' : indication.criticality.includes('Marginal') ? 'Major' : 'Minor');
+              return (
+                <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${
+                  severity === 'Critical' ? 'bg-rose-950 text-rose-300 border border-rose-800' :
+                  severity === 'Major' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
+                  'bg-teal-950 text-teal-300 border border-teal-800'
+                }`}>
+                  {severity} Severity
+                </span>
+              );
+            })()}
           </div>
 
           {/* Visual Presentation / Signal Pattern */}
@@ -198,7 +203,7 @@ export const NDTIndicationsCatalog: React.FC<NDTIndicationsCatalogProps> = ({ me
               Inspection Signal / Image Pattern:
             </span>
             <p className="text-xs text-slate-200 leading-relaxed font-mono">
-              {indication.typicalAppearance}
+              {indication.typicalAppearance || indication.visualAppearance}
             </p>
           </div>
 
@@ -209,7 +214,7 @@ export const NDTIndicationsCatalog: React.FC<NDTIndicationsCatalogProps> = ({ me
               Standard Code Evaluation & Acceptance Guidance:
             </span>
             <p className="text-xs text-emerald-200 leading-relaxed">
-              {indication.evaluationGuidance}
+              {indication.evaluationGuidance || indication.criticality}
             </p>
           </div>
         </div>
